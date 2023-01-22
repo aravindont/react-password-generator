@@ -1,3 +1,7 @@
 export default function App() {
-  return <div>App</div>;
+  return (
+    <>
+      <button className="btn btn-primary">Hi</button>
+    </>
+  );
 }
