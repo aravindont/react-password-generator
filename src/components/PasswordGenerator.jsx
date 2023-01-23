@@ -1,10 +1,11 @@
 import { useState } from "react";
+import { PasswordServices } from "../services/PasswordServices";
 export const PasswordGenerator = () => {
   const [state, setState] = useState({
     generatedPassword: "",
     passwordLength: 20,
-    symbols: false,
-    numbers: false,
+    symbol: false,
+    number: false,
     lower: false,
     upper: false,
   });
@@ -20,31 +21,37 @@ export const PasswordGenerator = () => {
       [event.target.name]: event.target.checked,
     });
   };
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    let passwordObj = PasswordServices.getPasswordObj(state);
+    let thePassword = PasswordServices.generatePassword(
+      passwordObj,
+      state.passwordLength
+    );
+    setState({ ...state, generatedPassword: thePassword });
+  };
   return (
     <>
-      <pre>{JSON.stringify(state)}</pre>
       <div className="container mt-5">
         <div className="row">
-          <div className="col-md-4">
+          <div className="col-md-6">
             <div className="card shadow-lg">
               <div className="card-header bg-warning">
                 <p className="h4">Password Generator</p>
               </div>
               <div className="card-body bg-warning">
-                <form>
+                <form onSubmit={handleSubmit}>
                   <div className="mb-2">
                     <div className="input-group">
                       <span className="input-group-text">Password</span>
                       <input
                         type="text"
                         value={state.generatedPassword}
+                        onChange={updateInput}
                         name="generatedPassword"
                         className="form-control"
                         placeholder="Generated Password"
                       />
-                      <span className="input-group-text">
-                        <i className="fa fa-clipboard" />
-                      </span>
                     </div>
                   </div>
                   <div className="mb-2">
@@ -66,7 +73,7 @@ export const PasswordGenerator = () => {
                       <span className="input-group-text">
                         <input
                           onChange={updateCheck}
-                          name="symbols"
+                          name="symbol"
                           type="checkbox"
                           className="form-check-input"
                         />
@@ -84,7 +91,7 @@ export const PasswordGenerator = () => {
                       <span className="input-group-text">
                         <input
                           onChange={updateCheck}
-                          name="numbers"
+                          name="number"
                           type="checkbox"
                           className="form-check-input"
                         />
