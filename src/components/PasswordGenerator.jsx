@@ -3,7 +3,7 @@ import { PasswordServices } from "../services/PasswordServices";
 export const PasswordGenerator = () => {
   const [state, setState] = useState({
     generatedPassword: "",
-    passwordLength: 20,
+    passwordLength: 0,
     symbol: false,
     number: false,
     lower: false,
